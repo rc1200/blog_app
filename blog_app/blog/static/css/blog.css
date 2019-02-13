@@ -1,0 +1,41 @@
+.ron {
+    color: green;
+    font-size: 36pt;
+    text-decoration: none;
+    background-color: red;
+}
+
+.page-header {
+    color: green;
+    background-color: #ff9400;
+    margin-top: 0;
+    /*top, right, bottom left*/
+    padding: 20px 20px 20px 40px;
+}
+
+.content  {
+    margin-left: 40px;
+}
+
+.page-header h1, .page-header h1 a {
+    color: #ffffff;
+    font-size: 36pt;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Tangerine', 'Inconsolata', 'Drpod Sans', serif;
+    font-size: 48px;
+}
+
+.date {
+    color: #aec4e5
+}
+
+.post {
+    margin-bottom: 70px;
+}
+
+.post h1 {
+    color: green;
+}
