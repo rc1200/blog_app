@@ -1,18 +1,28 @@
 {% extends 'blog/base.html' %}
 
 {% block content %}
-<div class="ron">aaaa</div>
-{% if post.published_date %}
 
 <div class="post">
-    <div class="date">
-        {{ post.published_date}}
-    </div>
 
-    {% endif%}
 
-    <a href="{% url 'post_edit' pk=post.pk %}" style="color: #73198e"><i class="fas fa-edit fa-2x"></i></a>
+    <span class="edit-publish">
+        <a href="{% url 'post_edit' pk=post.pk %}"><i class="fas fa-edit fa-2x"></i></a>
+
+
+    {% if post.published_date %}
+
+        <a href="{% url 'post_post_unPublish' pk=post.pk %}"><button class="btn btn-secondary">Un-Publish</button></a>
+    </span>
+        <div class="date">
+            Published: {{ post.published_date}}
+        </div>
+    {% else %}
+        <a href="{% url 'post_publish' pk=post.pk %}"><button class="btn btn-secondary">Publish</button></a>
+    </span>
+    {% endif %}
+
     <h1>{{ post.title}}</h1>
     <p>{{ post.text|linebreaksbr}}</p>
+
 </div>
 {% endblock %}

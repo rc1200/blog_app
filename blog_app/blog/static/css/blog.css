@@ -53,3 +53,9 @@ h1, h2, h3, h4 {
     float: right;
     margin: 10px;
 }
+
+.edit-publish a i {
+  color: purple;
+  padding-left: 30px;
+}
+

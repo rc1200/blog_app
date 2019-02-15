@@ -22,14 +22,15 @@ def post_detail(request, pk):
 
 
 def post_new(request):
-    template_name  = 'new'
+    template_name = 'new'
     if request.method == 'POST':
         form = PostForm(request.POST)  # if post then capture all that data and store it in an object
         if form.is_valid():  # ensure the form has clean data passed
             post = form.save(commit=False)
             post.author = request.user
-            post.published_date = timezone.now()
+            # post.published_date = timezone.now()
             post.save()
+            # return redirect('post_detail', pk=post.pk)
             return redirect('post_detail', pk=post.pk)
     else:
         # just renders the form, so when you submit the data is there since you filled it out
@@ -38,18 +39,43 @@ def post_new(request):
 
     return render(request, 'blog/post_edit.html', stuff_for_frontend)
 
+
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if request.method =='POST':
+    if request.method == 'POST':
         # update existing form
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
             post.authoer = request.user
-            post.published_date = timezone.now()
+            # post.published_date = timezone.now()
             post.save()
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm(instance=post)
         stuff_for_frontend = {'form': form}
     return render(request, 'blog/post_edit.html', stuff_for_frontend)
+
+
+def post_draft_list(request):
+    posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
+    stuff_for_frontend = {'posts': posts}
+    return render(request, "blog/post_draft_list.html", stuff_for_frontend)
+
+
+def post_publish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.published_date = timezone.now()
+    post.save()
+
+    stuff_for_frontend = {'post': post}
+    return render(request, 'blog/post_detail.html', stuff_for_frontend)
+
+def post_unPublish(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.published_date = None
+    post.save()
+
+    posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
+    stuff_for_frontend = {'posts': posts}
+    return render(request, "blog/post_draft_list.html", stuff_for_frontend)
