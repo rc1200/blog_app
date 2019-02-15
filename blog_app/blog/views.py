@@ -21,7 +21,8 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', stuff_for_frontend)
 
 
-def post_new(request, na):
+def post_new(request):
+    template_name  = 'new'
     if request.method == 'POST':
         form = PostForm(request.POST)  # if post then capture all that data and store it in an object
         if form.is_valid():  # ensure the form has clean data passed
