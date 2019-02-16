@@ -15,12 +15,14 @@
         <a href="{% url 'post_post_unPublish' pk=post.pk %}"><button class="btn btn-secondary">Un-Publish</button></a>
         {% endif %}
     </span>
-        <div class="date">
-            Published: {{ post.published_date}}
-        </div>
+    <div class="date">
+        Published: {{ post.published_date}}
+    </div>
     {% else %}
 
-        <a href="{% url 'post_publish' pk=post.pk %}"><button class="btn btn-secondary">Publish</button></a>
+    <a href="{% url 'post_publish' pk=post.pk %}">
+        <button class="btn btn-secondary">Publish</button>
+    </a>
 
     </span>
     {% endif %}
@@ -28,5 +30,23 @@
     <h1>{{ post.title}}</h1>
     <p>{{ post.text|linebreaksbr}}</p>
 
+    <hr>
+    <a href="{% url 'add_comment_to_post' pk=post.pk %}" class="btn btn-secondary" %}>Add comment</a>
+
+    {% for comment in post.comments.all %}
+
+    <div class="comment">
+        <div class="date">
+            {{ comment.crated_date }}
+        </div>
+        Author: <strong>{{ comment.author }}</strong>
+        <p>{{ comment.text }}</p>
+    </div>
+
+    {% empty %}
+    <p>No comments yet...</p>
+    {% endfor %}
+
 </div>
+
 {% endblock %}
