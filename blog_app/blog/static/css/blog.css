@@ -1,27 +1,50 @@
-.ron {
-    color: green;
-    font-size: 36pt;
-    text-decoration: none;
-    background-color: red;
+.container-blog-header {
+    display: flex;
+    color: white;
+    font-size: 20pt;
+    background-color: #ff9400;
+    text-align: right;
 }
+
+
+.page-header-title {
+    flex-basis: 60%;
+    text-decoration: none;
+    text-align: left;
+}
+
+.page-header-title h1 a{
+    color: #ffffff;
+    text-decoration: none;
+    text-align: left;
+}
+
+.actions, .user-name {
+    flex-basis: 40%;
+}
+
+
 
 .page-header {
-    color: green;
+    color: white;
+    font-size: 20pt;
     background-color: #ff9400;
-    margin-top: 0;
-    /*top, right, bottom left*/
-    padding: 20px 20px 20px 40px;
 }
 
-.content  {
-    margin-left: 40px;
-}
 
 .page-header h1, .page-header h1 a {
     color: #ffffff;
     font-size: 36pt;
     text-decoration: none;
+    text-align: left;
+
 }
+
+
+.content  {
+    margin-left: 40px;
+}
+
 
 h1, h2, h3, h4 {
     font-family: 'Tangerine', 'Inconsolata', 'Drpod Sans', serif;

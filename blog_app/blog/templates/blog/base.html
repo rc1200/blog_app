@@ -18,16 +18,26 @@
 </head>
 
 <body>
-<div class="page-header">
-    {% if user.is_authenticated %}
-    <a href="{% url 'post_draft_list' %}" class="top-menu"><i class="fas fa-calendar-week fa-2x"></i></a>
-    <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i></a>
-    <a href="{% url 'logout' %}" class="top-menu"><i class="fas fa-sign-out-alt fa-2x"></i></i></a>
-    {% else %}
-    <a href="{% url 'login' %}" class="top-menu"><i class="fas fa-sign-in-alt fa-2x"></i></i></a>
-    {% endif %}
-    <h1><a href="/">My BLOG</a></h1>
+
+<div class="container-blog-header">
+
+
+    <div class="page-header-title">
+        <h1><a href="/">Random BLOG</a></h1>
+    </div>
+    <div class="actions">
+        {% if user.is_authenticated %}
+        welcome: {{ user.get_username }}
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><i class="fas fa-calendar-week fa-2x"></i></a>
+        <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i></a>
+        <a href="{% url 'logout' %}" class="top-menu"><i class="fas fa-sign-out-alt fa-2x"></i></i></a>
+
+        {% else %}
+        <a href="{% url 'login' %}" class="top-menu"><i class="fas fa-sign-in-alt fa-2x"></i></i></a>
+        {% endif %}
+    </div>
 </div>
+
 
 <div class="content">
     <div class="row">
