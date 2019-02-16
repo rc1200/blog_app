@@ -16,12 +16,15 @@ Including another URLconf
 
 from django.urls import path, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    path('accounts/login/', auth_views.LoginView.as_view(), name='login'),
+    # look at Templates / registration / login.html
+    path('accounts/logout/', auth_views.LogoutView.as_view(), name='logout'),
     # since this is the man, we are asking to look at the blog.urls.py file instead so we include it here
     path('', include('blog.urls')),
 
