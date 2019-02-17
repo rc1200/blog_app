@@ -32,7 +32,7 @@ def post_detail(request, pk):
             print(a)
         comments_filtered = Comment.objects.filter(post_id=pk)
     else:
-        comments_filtered = Comment.objects.filter(publish=True, post_id=pk)
+        comments_filtered = Comment.objects.filter(approved=True, post_id=pk)
 
     # Permissions that the user has via a group
     # group_permissions = Permission.objects.filter(group__user=request.user)
@@ -157,24 +157,10 @@ def comment_edit(request, pk):
 def comment_publish(request, pk):
     post = get_object_or_404(Comment, pk=pk)
 
-    print('llllllllllllllllllll')
-    # print(post)
-    print('specific: ', post.text)
-    print('specific: ', post.publish)
-    print('specific: ', post.id)
-    print('specific: ', post.post.id)
-    print('llllllllllllllllllll')
-    # form = CommentForm(request.POST, instance=post)
-    # comment = form.save(commit=False)
-
-    if post.publish:
-        post.publish = False
+    if post.approved:
+        post.un_approve_post()
     else:
-        post.publish=True
-
-    post.save()
+        post.approve_post()
 
     return redirect('post_detail', pk=post.post.id)
-    # return redirect('/')
-
 
