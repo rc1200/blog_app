@@ -1,9 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from django.utils import timezone
 
 from .forms import PostForm, CommentForm
-from .models import Post
+from .models import Post, Comment
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User
 
 # Create your views here.
 def post_list(request):
@@ -17,7 +19,35 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    stuff_for_frontend = {'post': post}
+
+
+
+    permissions = Permission.objects.filter(user=request.user)
+
+    # Permissions that the user has via a group
+    group_permissions = Permission.objects.filter(group__user=request.user)
+
+    # post2 = get_object_or_404(Comment, )
+    # post2 = get_list_or_404(Comment, post_id=2)
+    print('***********************************from post2')
+    comments_filtered = Comment.objects.filter(publish=True,post_id=pk)
+    print(post.text)
+    print(Comment)
+
+    for i in comments_filtered:
+        print('tess   ',i.text)
+
+    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    print (comments_filtered.__dict__)
+    print(pk)
+
+    print(permissions)
+
+    for a in permissions:
+        print(a)
+
+
+    stuff_for_frontend = {'post': post, 'comments_filtered': comments_filtered}
     return render(request, 'blog/post_detail.html', stuff_for_frontend)
 
 @login_required
@@ -81,10 +111,10 @@ def post_unPublish(request, pk):
     stuff_for_frontend = {'posts': posts}
     return render(request, "blog/post_draft_list.html", stuff_for_frontend)
 
-
+@login_required
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
+    if request.method == 'POST' and 'save_btn' in request.POST:
         # update existing form
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -93,6 +123,28 @@ def add_comment_to_post(request, pk):
             comment.post = post
             comment.save()
             return redirect('post_detail', pk=post.pk)
+    elif request.method == 'POST' and 'cancel_btn' in request.POST:
+        return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
     return render(request, 'blog/add_comment_to_post.html', {'form' : form })
+
+@login_required
+def comment_edit(request, pk):
+    post = get_object_or_404(Comment, pk=pk)
+
+    if request.method == 'POST' and 'save_btn' in request.POST:
+        form = CommentForm(request.POST, instance=post)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.save()
+            return redirect('post_detail', pk=comment.post_id)
+    elif request.method == 'POST' and 'delete_btn' in request.POST:
+        post.delete()
+        return redirect('post_detail', pk=post.post_id)
+    else:
+        form = CommentForm(instance=post)
+
+    return render(request, 'blog/comment_edit.html', {'form' : form })
+
+

@@ -11,9 +11,9 @@ class Post(models.Model):
     published_date = models.DateTimeField(blank=True, null=True)
     test_date = models.DateTimeField(blank=True, null=True)
 
-    def published(self):
-        self.published_date = timezone.now()
-        self.save()
+    # def published(self):
+    #     self.published_date = timezone.now()
+    #     self.save()
 
     def __str__(self):
         return self.title
@@ -23,6 +23,7 @@ class Comment(models.Model):
     author = models.CharField(max_length=200)
     text = models.TextField()
     crated_date = models.DateTimeField(default=timezone.now)
+    publish = models.BooleanField(default=False)
 
     def __str__(self):
         return self.text
