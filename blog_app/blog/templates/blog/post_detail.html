@@ -42,8 +42,16 @@
     post.id={{ post.id }}
     comment.id={{ comment.id }}
     comment.post_id={{ comment.post_id }}
+    comment.publish={{ comment.publish }}
     {{post.pk}}
-    <p><a href="{% url 'comment_edit'  pk=comment.id %}"}><i class="fas fa-edit fa-2x"></i></a></p>
+    <div>
+        <a href="{% url 'comment_edit'  pk=comment.id %}"}><i class="fas fa-edit fa-2x"></i></a>
+        {% if comment.publish == False %}
+            <a href="{% url 'comment_publish'  pk=comment.id %}" class="btn btn-info" }>Publish</a>
+        {% else %}
+            <a href="{% url 'comment_publish'  pk=comment.id %}" class="btn btn-secondary" }>Un-Publish</a>
+        {% endif %}
+    </div>
     {% endif %}
 
 

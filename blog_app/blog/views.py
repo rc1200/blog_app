@@ -20,17 +20,27 @@ def post_list(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
+    print(request.user)
 
+    if str(request.user) == 'AnonymousUser':
+        print('matchmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
 
-    permissions = Permission.objects.filter(user=request.user)
+    if str(request.user) != 'AnonymousUser':
+        permissions = Permission.objects.filter(user=request.user)
+        print(permissions)
+        for a in permissions:
+            print(a)
+        comments_filtered = Comment.objects.filter(post_id=pk)
+    else:
+        comments_filtered = Comment.objects.filter(publish=True, post_id=pk)
 
     # Permissions that the user has via a group
-    group_permissions = Permission.objects.filter(group__user=request.user)
+    # group_permissions = Permission.objects.filter(group__user=request.user)
 
     # post2 = get_object_or_404(Comment, )
     # post2 = get_list_or_404(Comment, post_id=2)
     print('***********************************from post2')
-    comments_filtered = Comment.objects.filter(publish=True,post_id=pk)
+
     print(post.text)
     print(Comment)
 
@@ -40,11 +50,6 @@ def post_detail(request, pk):
     print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
     print (comments_filtered.__dict__)
     print(pk)
-
-    print(permissions)
-
-    for a in permissions:
-        print(a)
 
 
     stuff_for_frontend = {'post': post, 'comments_filtered': comments_filtered}
@@ -146,5 +151,30 @@ def comment_edit(request, pk):
         form = CommentForm(instance=post)
 
     return render(request, 'blog/comment_edit.html', {'form' : form })
+
+
+@login_required
+def comment_publish(request, pk):
+    post = get_object_or_404(Comment, pk=pk)
+
+    print('llllllllllllllllllll')
+    # print(post)
+    print('specific: ', post.text)
+    print('specific: ', post.publish)
+    print('specific: ', post.id)
+    print('specific: ', post.post.id)
+    print('llllllllllllllllllll')
+    # form = CommentForm(request.POST, instance=post)
+    # comment = form.save(commit=False)
+
+    if post.publish:
+        post.publish = False
+    else:
+        post.publish=True
+
+    post.save()
+
+    return redirect('post_detail', pk=post.post.id)
+    # return redirect('/')
 
 
