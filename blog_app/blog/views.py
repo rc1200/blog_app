@@ -20,37 +20,19 @@ def post_list(request):
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
-    print(request.user)
-
-    if str(request.user) == 'AnonymousUser':
-        print('matchmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm')
-
     if str(request.user) != 'AnonymousUser':
         permissions = Permission.objects.filter(user=request.user)
-        print(permissions)
-        for a in permissions:
-            print(a)
+        # print(permissions)
+        # for a in permissions:
+        #     print(a)
         comments_filtered = Comment.objects.filter(post_id=pk)
     else:
         comments_filtered = Comment.objects.filter(approved=True, post_id=pk)
+        post = Post.objects.filter(published_date__isnull=False)
+
 
     # Permissions that the user has via a group
     # group_permissions = Permission.objects.filter(group__user=request.user)
-
-    # post2 = get_object_or_404(Comment, )
-    # post2 = get_list_or_404(Comment, post_id=2)
-    print('***********************************from post2')
-
-    print(post.text)
-    print(Comment)
-
-    for i in comments_filtered:
-        print('tess   ',i.text)
-
-    print('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-    print (comments_filtered.__dict__)
-    print(pk)
-
 
     stuff_for_frontend = {'post': post, 'comments_filtered': comments_filtered}
     return render(request, 'blog/post_detail.html', stuff_for_frontend)
@@ -90,6 +72,13 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
         stuff_for_frontend = {'form': form}
     return render(request, 'blog/post_edit.html', stuff_for_frontend)
+
+@login_required
+def post_delete(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    post.delete()
+    return redirect("post_list")
+
 
 @login_required
 def post_draft_list(request):

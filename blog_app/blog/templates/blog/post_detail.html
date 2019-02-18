@@ -15,17 +15,20 @@
         <a href="{% url 'post_post_unPublish' pk=post.pk %}"><button class="btn btn-secondary">Un-Publish</button></a>
         {% endif %}
     </span>
-    <div class="date">
-        Published: {{ post.published_date}}
-    </div>
     {% else %}
 
     <a href="{% url 'post_publish' pk=post.pk %}">
         <button class="btn btn-secondary">Publish</button>
     </a>
 
+
     </span>
+
+    <a href="{% url 'post_delete' pk=post.pk %}"} onclick="return confirm('Are you sure you want delete this blog post?')"><i class="fas fa-trash-alt fa-2x"></i></a>
     {% endif %}
+    <div class="date">
+        Published: {{ post.published_date}}
+    </div>
 
     <h1>{{ post.title}}</h1>
     <p>{{ post.text|linebreaksbr}}</p>
