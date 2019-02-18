@@ -20,18 +20,17 @@ def post_list(request):
 
 
 def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
 
     if str(request.user) != 'AnonymousUser':
+        post = get_object_or_404(Post, pk=pk)
         permissions = Permission.objects.filter(user=request.user)
         # print(permissions)
         # for a in permissions:
         #     print(a)
         comments_filtered = Comment.objects.filter(post_id=pk)
     else:
+        post = get_object_or_404(Post, published_date__isnull=False, pk=pk)
         comments_filtered = Comment.objects.filter(approved=True, post_id=pk)
-        post = Post.objects.filter(published_date__isnull=False)
-
 
     # Permissions that the user has via a group
     # group_permissions = Permission.objects.filter(group__user=request.user)
