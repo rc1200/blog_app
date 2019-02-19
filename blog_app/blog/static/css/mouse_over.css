@@ -19,13 +19,18 @@ a.top-menu:hover span{
     position:absolute;
     text-decoration:none;
     text-align: center;
-    width: 200px;
-    padding: 5px
+    width: auto;
+    white-space: nowrap;
+    top: 30px;
+    left: -65px;
+    border-radius: 6px;
+    padding: 5px 20px;
+    border: 2px solid grey;
+    line-height: normal;
+    text-decoration: none;
     color: white;
     background: green;
     font-size: 25px;
-    top: 40px;
-    left: -30px;
 
 }
 
