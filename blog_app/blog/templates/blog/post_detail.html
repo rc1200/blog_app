@@ -7,12 +7,14 @@
 
     <span class="edit-publish">
         {% if 'delete_post' in permissions %}
-            <a href="{% url 'post_delete' pk=post.pk %}" }
-               onclick="return confirm('Are you sure you want delete this blog post?')"><i
-                    class="fas fa-trash-alt fa-2x"></i></a>
+            <a href="{% url 'post_delete' pk=post.pk %}"
+               onclick="return confirm('Are you sure you want delete this blog post?')"
+               data-toggle="tooltip" data-placement="bottom" title="Delete Blog Post!">
+                <i class="fas fa-trash-alt fa-2x"></i></a>
         {% endif %}
         {% if 'change_post' in permissions %}
-            <a href="{% url 'post_edit' pk=post.pk %}"><i class="fas fa-edit fa-2x"></i></a>
+            <a href="{% url 'post_edit' pk=post.pk %}" data-toggle="tooltip" data-placement="bottom" title="Edit Blog Post!">
+                <i class="fas fa-edit fa-2x"></i></a>
             {% if post.published_date %}
                 <a href="{% url 'post_post_unPublish' pk=post.pk %}"><button
                         class="btn btn-secondary">Un-Publish</button></a>
@@ -37,7 +39,9 @@
     <div>
 
         {% if comment.author == user.username or 'change_comment' in permissions%}
-        <a href="{% url 'comment_edit'  pk=comment.id %}" }><i class="fas fa-edit fa-2x"></i></a>
+        <a href="{% url 'comment_edit'  pk=comment.id %}"  data-toggle="tooltip" data-placement="bottom" title="Edit comment!"><i class="fas fa-edit fa-2x"></i></a>
+
+
         {% endif %}
 
         {% if 'change_comment' in permissions %}
@@ -86,4 +90,18 @@
 </div>
 
 
+<div class="container">
+  <h3>Tooltip Example</h3>
+  <p>The data-placement attribute specifies the tooltip position.</p>
+  <ul class="list-inline">
+    <li><a href="#" data-toggle="tooltip" data-placement="top" title="Hooray!">Top</a></li>
+    <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Hooray!">Bottom</a></li>
+    <li><a href="#" data-toggle="tooltip" data-placement="left" title="Hooray!">Left</a></li>
+    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Hooray!">Right</a></li>
+  </ul>
+</div>
+
+
 {% endblock %}
+
+
