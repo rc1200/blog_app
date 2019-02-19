@@ -4,15 +4,27 @@ from .models import Post, Comment
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django.contrib.auth.models import User
+from tinymce import TinyMCE
+
 
 # from crispy_forms.layout bootstrep import (
 #     PrependedText, PrependedAppendedText, FormActions)
 
+class TinyMCEWidget(TinyMCE):
+    def use_required_attribute(self, *args):
+        return False
+
 
 class PostForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=TinyMCEWidget(
+            attrs={'required': False, 'cols': 30, 'rows': 10}
+        )
+    )
+
     class Meta:
         model = Post
-        fields = ('title', 'text')
+        fields = ('title', 'text', 'content')
 
 
 class CommentForm(forms.ModelForm):

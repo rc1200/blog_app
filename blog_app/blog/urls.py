@@ -1,4 +1,4 @@
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from . import views
 
 urlpatterns = [
@@ -17,5 +17,6 @@ urlpatterns = [
     path('post/<int:pk>/comment_edit/', views.comment_edit, name='comment_edit'),
     path('post/<int:pk>/comment_publish/', views.comment_publish, name='comment_publish'),
     path('blog/signup/', views.signup, name='signup'),
+    re_path(r'^tinymce/', include('tinymce.urls')),
 
 ]

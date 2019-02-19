@@ -28,6 +28,7 @@
     <div class="date">Published: {{ post.published_date}}</div>
     <h1>{{ post.title}}</h1>
     <p>{{ post.text | markdown | safe | linebreaksbr }}</p>
+    <p>{{ post.content | safe | linebreaksbr }}</p>
 
 
     <hr color="orange">
