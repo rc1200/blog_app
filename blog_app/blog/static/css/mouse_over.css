@@ -1,20 +1,19 @@
-a.top-menu{
+.top-menu{
   position: relative; /* This makes everything work.*/
   /* Allows you to layer overlapping elements. */
   z-index: 20;
 }
 
-a.top-menu span{
+.top-menu span{
   display: none;
 }
 
-
-a.top-menu i:hover{
+.top-menu i:hover{
   /* Allows you to layer overlapping elements.*/
   z-index: 30;
 }
 
-a.top-menu:hover span{
+.top-menu:hover span{
     display:block;
     position:absolute;
     text-decoration:none;
@@ -25,15 +24,52 @@ a.top-menu:hover span{
     left: -65px;
     border-radius: 6px;
     padding: 5px 20px;
-    border: 2px solid grey;
+    border: 2px solid green;
     line-height: normal;
     text-decoration: none;
-    color: white;
     background: green;
+    opacity: 0.7;
     font-size: 25px;
-
 }
 
 .tooltip-text {
     color: white;
+}
+
+
+/*https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip*/
+
+/*how to use
+        <div class="tooltip_ron">Hover over me
+            <span class="tooltip_rontext">Tooltip text</span>
+        </div>*/
+
+
+.tooltip_ron {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip_ron .tooltip_rontext {
+  visibility: hidden;
+  width: 120px;
+  top: 100%;
+  left: 50%;
+  margin-left: -60px; /* Use half of the width (120/2 = 60), to center the tooltip */
+
+
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip_ron */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip_ron:hover .tooltip_rontext {
+  visibility: visible;
 }

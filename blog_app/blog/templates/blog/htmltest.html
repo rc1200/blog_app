@@ -39,6 +39,15 @@
         {% if user.is_authenticated %}
         welcome: {{ user.get_username }}
 
+        <a href="{% url 'post_new' %}" class="tooltip_ron"><i class="far fa-plus-square fa-2x"></i>
+            <span class="tooltip_rontext">sign out</span>
+        </a>
+
+        <div class="tooltip_ron">Hover over me
+            <span class="tooltip_rontext">Tooltip text</span>
+        </div>
+
+
         <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i>
             <span class="tooltip-text">sign out</span>
         </a>
@@ -46,12 +55,6 @@
         <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i>
             <span class="tooltip-text">sign out</span>
         </a>
-
-        <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i>
-            <span class="tooltip-text">sign out</span>
-        </a>
-
-
 
         {% else %}
         <a href="{% url 'login' %}" class="top-menu"><i class="fas fa-sign-in-alt fa-2x"></i>
@@ -63,6 +66,19 @@
     </div>
 
 </div>
+
+
+AAAA
+<p>Move the mouse over the text below:</p>
+
+<div>Hover over me
+  <span>Tooltip text</span>
+</div>
+
+<div class="tooltip_ron">Hover over me
+  <span class="tooltip_rontext">Tooltip text</span>
+</div>
+
 
 
 </body>
