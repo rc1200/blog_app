@@ -8,7 +8,6 @@ from django.contrib.auth.models import Permission, User
 from django.contrib.auth import login
 
 
-
 # Create your views here.
 def post_list(request):
     posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
@@ -19,15 +18,25 @@ def post_list(request):
     return render(request, "blog/post_list.html", stuff_for_frontend)
 
 
-def post_detail(request, pk):
+def get_user_permissions(request,selected_user):
+    if str(request.user) != 'AnonymousUser':
+        permissions = Permission.objects.filter(user=selected_user)
+        permission_list = [permission.codename for permission in permissions]
+    else:
+        permission_list = []
+    return permission_list
 
+
+def post_detail(request, pk):
+    permission_list = get_user_permissions(request, request.user)
     if str(request.user) != 'AnonymousUser':
         post = get_object_or_404(Post, pk=pk)
-        permissions = Permission.objects.filter(user=request.user)
-        # print(permissions)
-        # for a in permissions:
-        #     print(a)
-        comments_filtered = Comment.objects.filter(post_id=pk)
+
+        if 'change_comment' in permission_list:
+            comments_filtered = Comment.objects.filter(post_id=pk)
+        else:
+            comments_filtered = Comment.objects.filter(approved=True, post_id=pk) | Comment.objects.filter(
+                author=request.user, post_id=pk)
     else:
         post = get_object_or_404(Post, published_date__isnull=False, pk=pk)
         comments_filtered = Comment.objects.filter(approved=True, post_id=pk)
@@ -35,8 +44,9 @@ def post_detail(request, pk):
     # Permissions that the user has via a group
     # group_permissions = Permission.objects.filter(group__user=request.user)
 
-    stuff_for_frontend = {'post': post, 'comments_filtered': comments_filtered}
+    stuff_for_frontend = {'post': post, 'comments_filtered': comments_filtered, 'permissions': permission_list}
     return render(request, 'blog/post_detail.html', stuff_for_frontend)
+
 
 @login_required
 def post_new(request):
@@ -57,6 +67,7 @@ def post_new(request):
 
     return render(request, 'blog/post_edit.html', stuff_for_frontend)
 
+
 @login_required
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -74,6 +85,7 @@ def post_edit(request, pk):
         stuff_for_frontend = {'form': form}
     return render(request, 'blog/post_edit.html', stuff_for_frontend)
 
+
 @login_required
 def post_delete(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -87,6 +99,7 @@ def post_draft_list(request):
     stuff_for_frontend = {'posts': posts}
     return render(request, "blog/post_draft_list.html", stuff_for_frontend)
 
+
 @login_required
 def post_publish(request, pk):
     post = get_object_or_404(Post, pk=pk)
@@ -95,6 +108,7 @@ def post_publish(request, pk):
 
     stuff_for_frontend = {'post': post}
     return render(request, 'blog/post_detail.html', stuff_for_frontend)
+
 
 @login_required
 def post_unPublish(request, pk):
@@ -105,6 +119,7 @@ def post_unPublish(request, pk):
     posts = Post.objects.filter(published_date__isnull=True).order_by('-created_date')
     stuff_for_frontend = {'posts': posts}
     return render(request, "blog/post_draft_list.html", stuff_for_frontend)
+
 
 @login_required
 def add_comment_to_post(request, pk):
@@ -122,7 +137,8 @@ def add_comment_to_post(request, pk):
         return redirect('post_detail', pk=post.pk)
     else:
         form = CommentForm()
-    return render(request, 'blog/add_comment_to_post.html', {'form' : form })
+    return render(request, 'blog/add_comment_to_post.html', {'form': form})
+
 
 @login_required
 def comment_edit(request, pk):
@@ -140,7 +156,10 @@ def comment_edit(request, pk):
     else:
         form = CommentForm(instance=post)
 
-    return render(request, 'blog/comment_edit.html', {'form' : form })
+    permission_list = get_user_permissions(request, request.user)
+    user = request.user
+    stuff_for_frontend = {'form': form, 'permissions': permission_list, 'post': post}
+    return render(request, 'blog/comment_edit.html', stuff_for_frontend)
 
 
 @login_required
@@ -154,6 +173,7 @@ def comment_publish(request, pk):
 
     return redirect('post_detail', pk=post.post.id)
 
+
 def signup(request):
     # form = UserForm()
     if request.method == 'POST':
@@ -164,5 +184,4 @@ def signup(request):
             return redirect('/')
     else:
         form = UserForm()
-    return render(request, 'blog/signup.html',{'form': form})
-
+    return render(request, 'blog/signup.html', {'form': form})
