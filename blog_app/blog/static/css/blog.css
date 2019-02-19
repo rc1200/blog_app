@@ -73,8 +73,8 @@ h1, h2, h3, h4 {
 
 .top-menu i{
     color: #ffffff;
-    float: right;
-    margin: 10px;
+    /*float: right;*/
+    margin: 5px;
 }
 
 .edit-publish a i {
@@ -85,3 +85,4 @@ h1, h2, h3, h4 {
 .comment {
     margin: 20x 0x 20x 20x;
 }
+

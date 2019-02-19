@@ -18,6 +18,13 @@ def post_list(request):
     return render(request, "blog/post_list.html", stuff_for_frontend)
 
 
+def htmltest(request):
+    return render(request, "blog/htmltest.html")
+
+
+
+
+
 def get_user_permissions(request,selected_user):
     if str(request.user) != 'AnonymousUser':
         permissions = Permission.objects.filter(user=selected_user)

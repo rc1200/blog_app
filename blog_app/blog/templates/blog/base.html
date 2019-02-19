@@ -11,6 +11,7 @@
 
     <link rel="stylesheet" href="{% static 'css/blog.css' %}">
     <link rel="stylesheet" href="{% static 'css/zenburn.css' %}">
+    <link rel="stylesheet" href="{% static 'css/mouse_over.css' %}">
     <link rel="stylesheet" href="https://fronts.googleapis.com/css?family=Source+Code+Pro">
     <link href="https://fonts.googleapis.com/css?Tangerine:bold,bolditalic|Inconsolata:ota;oc|Drpod+Sans"
           type="text/css" rel="stylesheet">
@@ -23,21 +24,33 @@
 
 <div class="container-blog-header">
 
-
     <div class="page-header-title">
         <h1><a href="/">Random BLOG</a></h1>
     </div>
+
     <div class="actions">
         {% if user.is_authenticated %}
         welcome: {{ user.get_username }}
-        <a href="{% url 'post_draft_list' %}" class="top-menu"><i class="fas fa-calendar-week fa-2x"></i></a>
-        <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i></a>
-        <a href="{% url 'logout' %}" class="top-menu"><i class="fas fa-sign-out-alt fa-2x"></i></i></a>
+        <a href="{% url 'post_draft_list' %}" class="top-menu"><i class="fas fa-calendar-week fa-2x"></i>
+                        <span class="tooltip-text">un-published blogs</span>
+        </a>
+
+        <a href="{% url 'post_new' %}" class="top-menu"><i class="far fa-plus-square fa-2x"></i>
+                        <span class="tooltip-text">Add Blog</span>
+        </a>
+        <a href="{% url 'logout' %}" class="top-menu"><i class="fas fa-sign-out-alt fa-2x"></i></i>
+                        <span class="tooltip-text">sign out</span>
+        </a>
+
 
         {% else %}
-        <a href="{% url 'login' %}" class="top-menu"><i class="fas fa-sign-in-alt fa-2x"></i></i></a>
+        <a href="{% url 'login' %}" class="top-menu"><i class="fas fa-sign-in-alt fa-2x"></i></i>
+                        <span class="tooltip-text">sign in</span>
+        </a>
+
         {% endif %}
     </div>
+
 </div>
 
 
