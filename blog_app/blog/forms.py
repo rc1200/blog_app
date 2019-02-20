@@ -28,9 +28,15 @@ class PostForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        widget=TinyMCEWidget(
+            attrs={'required': False, 'cols': 30, 'rows': 10}
+        )
+    )
+
     class Meta:
         model = Comment
-        fields = ('text',)
+        fields = ('content',)
 
 class UserForm(forms.ModelForm):
 
@@ -43,6 +49,3 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
-    # class Meta:
-    #     model = Comment
-    #     fields = ('text',)

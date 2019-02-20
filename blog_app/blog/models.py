@@ -13,7 +13,7 @@ class Post(models.Model):
     test_date = models.DateTimeField(blank=True, null=True)
 
     # For tinyMCE
-    content = HTMLField('Content')
+    content = HTMLField('content')
 
     # def published(self):
     #     self.published_date = timezone.now()
@@ -28,9 +28,12 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
-    text = models.TextField()
+    text = models.TextField(blank=True, null=True)
     crated_date = models.DateTimeField(default=timezone.now)
     approved = models.BooleanField(default=False)
+
+    # For tinyMCE
+    content = HTMLField('content')
 
     def approve_post(self):
         self.approved = True
@@ -41,6 +44,6 @@ class Comment(models.Model):
         self.save()
 
     def __str__(self):
-        return self.text
+        return ('Post: {} comment# {}').format(self.post.title,self.id)
 
 

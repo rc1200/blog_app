@@ -5,6 +5,8 @@
 <h1>Edit Comment</h1>
 <form method="post" class="post-form-blog">
     {% csrf_token %}
+    {{ form.media }}
+
     {{ form.as_p }}
 
     {% if post.author == user.username or 'delete_comment' in permissions %}

@@ -5,6 +5,7 @@
     <h1>Add Comment</h1>
     <form method="post" class="post-form-blog">
         {% csrf_token %}
+        {{ form.media }}
         {{ form.as_p }}
         <button type="submit" name="cancel_btn" class="btn btn-secondary">cancel</button>
         <button type="submit" name="save_btn" class="btn btn-primary">SAVE</button>

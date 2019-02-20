@@ -12,7 +12,9 @@
     </div>
     <a href="{% url 'post_detail' pk=post.pk %}">{{ post.approved_comments.count }} comment{{ post.approved_comments.count|pluralize }}</a>
 
-    <!--<p>{{ post.text| markdown | safe | linebreaksbr | truncatechars:300 }}</p>-->
+    <!--
+    <p>{{ post.text| markdown | safe | linebreaksbr | truncatechars:300 }}</p>
+    -->
     <p>{{ post.content | safe | truncatechars:300 | linebreaksbr }}</p>
 
     <!--for some reason certin formatting seems to spill over to the other comment, this seems to force it to stop-->
