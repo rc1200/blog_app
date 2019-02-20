@@ -1,8 +1,12 @@
 certifi==2018.11.29
 Django==2.1.7
 django-crispy-forms==1.7.2
+django-filebrowser-no-grappelli==3.7.7
+django-tinymce4-lite==1.7.4
+jsmin==2.2.2
 Markdown==3.0.1
 mistune==0.8.4
+Pillow==5.4.1
 Pygments==2.3.1
 pytz==2018.9
 wincertstore==0.2
